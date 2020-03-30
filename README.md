@@ -23,8 +23,9 @@ checkin
 
 ## Installation
 
-The following instructions require stack resolver LTS 14.8, and the Glorious
-Glasgow Haskell Compiler 8.6.5
+The following instructions require [stack resolver LTS
+14.8](https://docs.haskellstack.org/en/stable/README/#the-haskell-tool-stack),
+and the [Glorious Glasgow Haskell Compiler 8.6.5](https://www.haskell.org/ghc/)
 
 
 First, clone this repo:
