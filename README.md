@@ -1,4 +1,4 @@
-# chicken: a Haskell parser for my Toggl checkins
+# chicken :chicken: : a Haskell parser for my Toggl checkins
 
 Just pass the Toggl summary report (in CSV format) to the command-line:
 
