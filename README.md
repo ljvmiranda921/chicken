@@ -1,24 +1,44 @@
-# chicken 
+# chicken: a Haskell parser for my Toggl checkins
 
-a Haskell parser for my Toggl checkins
-
-## How to use
-
-Just pass it to the command-line:
+Just pass the Toggl summary report (in CSV format) to the command-line:
 
 ```sh
-chicken path/to/toggle-report.csv
+$ chicken path/to/Toggl_summary_report_2020-03-30_2020-03-30.csv
 ```
 
 And you'll get
 
 ```sh
-# TODO: Sample output
+$ chicken path/to/Toggl_summary_report_2020-03-30_2020-03-30.csv
+
+checkin
+- 3.56 hrs #project-1 Annotate test set
+- 1.39 hrs #project-1 Standups, meetings, and comms
+- 1.33 hrs #opsandadmin Team Meeting
+- 0.10 hrs #opsandadmin Self-organization and Weekly Planning
+- 0.72 hrs #bizdev Comment on proposal
+- 0.54 hrs #engineering Comment on Architecture Gallery
+- 0.45 hrs #project-2 Review PRs
 ```
 
 ## Installation
 
+The following instructions require stack resolver LTS 14.8, and the Glorious
+Glasgow Haskell Compiler 8.6.5
 
+
+First, clone this repo:
+
+```sh
+git clone git@github.com:ljvmiranda921/chicken.git
+```
+
+Then, build with stack:
+
+```sh
+stack build
+stack install
+```
 
 ## FAQ
 
