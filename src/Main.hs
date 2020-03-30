@@ -8,7 +8,6 @@ import           Options.Applicative
 
 data App = App { appPath :: String }
 
-
 main :: IO ()
 main = execParser opts >>= runWithOptions
  where
@@ -18,19 +17,24 @@ main = execParser opts >>= runWithOptions
 runWithOptions :: App -> IO ()
 runWithOptions opts = parseCheckins (appPath opts)
 
-
 -- | The `parseCheckins` function takes a filepath and prints out the formatted
 -- checkin from Toggl
+parseCheckins:: FilePath -> IO ()
 parseCheckins f = do
   csv_file <- parseCSVFromFile f
   putStrLn "checkin"
   case csv_file of
     Right csv -> mapM_ putStrLn (parseCheckins' (tail csv))
     Left  err -> print err
+
+-- | The `parseCheckins'` function reads each entry in the record, formats it,
+-- and stores it in a list
+parseCheckins' :: PrintfType a => [[String]] -> [a]
 parseCheckins' csv = [ format record | record <- csv, record /= [""] ]
 
 -- | The `format` function stylizes the Toggle entry so that it looks just
 -- like your #dailycheckin log.
+format :: PrintfType t => [String] -> t
 format record = printf "- %0.2f hrs #%s %s" duration project entry
  where
   project  = (record !! 0)
