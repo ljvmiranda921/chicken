@@ -12,12 +12,12 @@ And you'll get
 $ chicken path/to/Toggl_summary_report_2020-03-30_2020-03-30.csv
 
 checkin
-- 3.56 hrs #project-1 Annotate test set
+- 3.56 hrs #project-1 Model training, evaluation 
 - 1.39 hrs #project-1 Standups, meetings, and comms
 - 1.33 hrs #opsandadmin Team Meeting
 - 0.10 hrs #opsandadmin Self-organization and Weekly Planning
 - 0.72 hrs #bizdev Comment on proposal
-- 0.54 hrs #engineering Comment on Architecture Gallery
+- 0.54 hrs #engineering Comment on architecture
 - 0.45 hrs #project-2 Review PRs
 ```
 
