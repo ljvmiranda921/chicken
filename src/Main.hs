@@ -19,7 +19,7 @@ runWithOptions opts = parseCheckins (appPath opts)
 
 -- | The `parseCheckins` function takes a filepath and prints out the formatted
 -- checkin from Toggl
-parseCheckins:: FilePath -> IO ()
+parseCheckins :: FilePath -> IO ()
 parseCheckins f = do
   csv_file <- parseCSVFromFile f
   putStrLn "checkin"
@@ -35,11 +35,17 @@ parseCheckins' csv = [ format record | record <- csv, record /= [""] ]
 -- | The `format` function stylizes the Toggle entry so that it looks just
 -- like your #dailycheckin log.
 format :: PrintfType t => [String] -> t
-format record = printf "- %0.2f hrs #%s %s" duration project entry
+format record = printf "- %0.2f %s #%s %s"
+                       duration
+                       (suffix duration)
+                       project
+                       entry
  where
   project  = (record !! 0)
   entry    = (record !! 2)
   duration = getDuration (record !! 3)
+  suffix d | d < 1     = "hr"
+           | otherwise = "hrs"
 
 -- | The `getDuration` function first splits the time string, then applies the
 -- getDuration' function to compute for the total elapsed time.
