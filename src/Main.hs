@@ -21,8 +21,8 @@ runWithOptions opts = parseCheckins (appPath opts)
 -- checkin from Toggl
 parseCheckins :: FilePath -> IO ()
 parseCheckins f = do
-  csv_file <- parseCSVFromFile f
   putStrLn "checkin"
+  csv_file <- parseCSVFromFile f
   case csv_file of
     Right csv -> mapM_ putStrLn (parseCheckins' (tail csv))
     Left  err -> print err
