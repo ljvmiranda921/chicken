@@ -1,5 +1,11 @@
 # chicken :chicken: : a Haskell parser for my Toggl checkins
 
+> In Thinking Machines, we [time-track everything in
+> Slack](https://stories.thinkingmachin.es/time-tracking-dashboard/).  I use
+> Toggl for my internal day-to-day, but the generated report is not compatible
+> with our #dailycheckin standards.  I made a simple parser to convert everything
+> properly.
+
 Just pass the Toggl summary report (in CSV format) to the command-line:
 
 ```sh
@@ -15,10 +21,10 @@ checkin
 - 3.56 hrs #project-1 Model training, evaluation 
 - 1.39 hrs #project-1 Standups, meetings, and comms
 - 1.33 hrs #opsandadmin Team Meeting
-- 0.10 hrs #opsandadmin Self-organization and Weekly Planning
-- 0.72 hrs #bizdev Comment on proposal
-- 0.54 hrs #engineering Comment on architecture
-- 0.45 hrs #project-2 Review PRs
+- 0.10 hr #opsandadmin Self-organization and Weekly Planning
+- 0.72 hr #bizdev Comment on proposal
+- 0.54 hr #engineering Comment on architecture
+- 0.45 hr #project-2 Review PRs
 ```
 
 ## Installation
@@ -41,7 +47,7 @@ stack build
 stack install
 ```
 
-## FAQ
+## Frequently Asked Questions
 
 - **This looks cool, can I use it?** Sure, but this uses the arcane Haskell
     tech stack. I included the installation instructions above so you can just
