@@ -3,6 +3,10 @@ module Main where
 import           Text.CSV
 import           Text.Printf
 import           Data.List.Split
+import           Data.Time.Clock
+import           Data.Time.Calendar
+import           Data.Dates
+import           Control.Monad
 import           Options.Applicative
 
 
@@ -10,9 +14,6 @@ data App = App { appPath :: String
                , appDate :: String
                }
 
-
-runWithOptions :: App -> IO ()
-runWithOptions opts = parseCheckins (appPath opts)
 
 main :: IO ()
 main = execParser opts >>= runWithOptions
@@ -34,15 +35,40 @@ main = execParser opts >>= runWithOptions
         <> help "Specify date (e.g. 2020-12-31, today, yesterday)")
 
 
+runWithOptions :: App -> IO ()
+runWithOptions (App p d) = parseCheckins p d
+
+
 -- | The `parseCheckins` function takes a filepath and prints out the formatted
 -- checkin from Toggl
-parseCheckins :: FilePath -> IO ()
-parseCheckins f = do
-  putStrLn "checkin"
+parseCheckins :: FilePath -> String -> IO ()
+parseCheckins f d = do
+  header <- makeHeader "checkin" (getDate d)
+  putStrLn header
   csv_file <- parseCSVFromFile f
   case csv_file of
     Right csv -> mapM_ putStrLn (parseCheckins' (tail csv))
     Left  err -> print err
+
+makeHeader :: String -> IO String -> IO String
+makeHeader c iod = liftM (makeHeader' c) iod
+
+makeHeader' :: String -> String -> String
+makeHeader' c d = c ++ " " ++ d
+
+-- | The `getDate` function takes in a string and returns the date
+getDate str = do
+  Right date <- getDate' str
+  let y = year date
+  let m = month date
+  let d = day date
+  return (show y ++ "-" ++ show m ++ "-" ++ show d)
+
+getDate' d = do
+  let t = getCurrentTime >>= return . toGregorian . utctDay
+  todayString <- (\(y, m, d) -> show y ++ "/" ++ show m ++ "/" ++ show d) <$> t
+  Right today <- return (parseDate undefined todayString)
+  return (parseDate today d)
 
 -- | The `parseCheckins'` function reads each entry in the record, formats it,
 -- and stores it in a list
