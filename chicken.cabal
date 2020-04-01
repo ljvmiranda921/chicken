@@ -18,4 +18,7 @@ executable chicken
   build-depends:       base >= 4.7 && < 5, 
                        csv >= 0.1.2, 
                        split >= 0.2.3.3, 
-                       optparse-applicative >= 0.14.0.0
+                       optparse-applicative >= 0.14.0.0,
+                       dates == 0.2.3.0,
+                       time >= 1.8.0.2
+
