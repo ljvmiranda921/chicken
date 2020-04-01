@@ -6,16 +6,33 @@ import           Data.List.Split
 import           Options.Applicative
 
 
-data App = App { appPath :: String }
+data App = App { appPath :: String
+               , appDate :: String
+               }
+
+
+runWithOptions :: App -> IO ()
+runWithOptions opts = parseCheckins (appPath opts)
 
 main :: IO ()
 main = execParser opts >>= runWithOptions
  where
-  parser = App <$> argument str (metavar "PATH")
-  opts   = info parser mempty
+  opts = info (parser <**> helper)
+    ( fullDesc
+    <> progDesc "Pass a Toggl report (in CSV) to PATH"
+    <> header "chicken 🐔- a Haskell parser for my Toggl checkins"
+    )
+  parser = App 
+    <$> argument str 
+        (metavar "PATH") 
+    <*> strOption
+        ( long "date" 
+        <> short 'd'
+        <> metavar "DATE"
+        <> value "today"
+        <> showDefault
+        <> help "Specify date (e.g. 2020-12-31, today, yesterday)")
 
-runWithOptions :: App -> IO ()
-runWithOptions opts = parseCheckins (appPath opts)
 
 -- | The `parseCheckins` function takes a filepath and prints out the formatted
 -- checkin from Toggl
