@@ -47,7 +47,7 @@ parseCheckins f d = do
   putStrLn header
   csv_file <- parseCSVFromFile f
   case csv_file of
-    Right csv -> mapM_ putStrLn (parseCheckins' (tail csv))
+    Right csv -> mapM_ putStrLn (formatEntries (tail csv))
     Left  err -> print err
 
 -- | The `makeHeader` function returns the #dailycheckin header
@@ -55,39 +55,27 @@ makeHeader :: String -> IO String -> IO String
 makeHeader c iod = liftM (f c) iod
   where f x y = x ++ " " ++ y
 
--- | The `getDate` function takes in a string and returns the date
-getDate str = do
-  Right date <- getDate' str
-  let y = year date
-  let m = month date
-  let d = day date
-  return (show y ++ "-" ++ show m ++ "-" ++ show d)
-
-getDate' d = do
+-- | The `getDate` function takes in a string qualifier (`today`, `tomorrow`,
+-- `in 2 weeks`) and returns the actual date relative to the date today.
+getDate :: String -> IO String
+getDate d = do
   let t = getCurrentTime >>= return . toGregorian . utctDay
   todayString <- (\(y, m, d) -> show y ++ "/" ++ show m ++ "/" ++ show d) <$> t
   Right today <- return (parseDate undefined todayString)
-  return (parseDate today d)
+  Right date <- return (parseDate today d)
+  return (show (year date) ++ "-" ++ show (month date) ++ "-" ++ show (day date))
 
--- | The `parseCheckins'` function reads each entry in the record, formats it,
+-- | The `formatEntries` function reads each entry in the record, formats it,
 -- and stores it in a list
-parseCheckins' :: PrintfType a => [[String]] -> [a]
-parseCheckins' csv = [ format record | record <- csv, record /= [""] ]
-
--- | The `format` function stylizes the Toggle entry so that it looks just
--- like your #dailycheckin log.
-format :: PrintfType t => [String] -> t
-format record = printf "- %0.2f %s #%s %s"
-                       duration
-                       (suffix duration)
-                       project
-                       entry
- where
-  project  = (record !! 0)
-  entry    = (record !! 2)
-  duration = getDuration (record !! 3)
-  suffix d | d < 1     = "hr"
-           | otherwise = "hrs"
+formatEntries :: PrintfType a => [[String]] -> [a]
+formatEntries csv = [ format record | record <- csv, record /= [""] ]
+  where format rec = printf "- %0.2f %s #%s %s"  duration (suffix duration) project entry
+          where
+             project  = (rec !! 0)
+             entry    = (rec !! 2)
+             duration = getDuration (rec !! 3)
+             suffix d | d < 1     = "hr"
+                      | otherwise = "hrs"
 
 -- | The `getDuration` function first splits the time string, then applies the
 -- getDuration' function to compute for the total elapsed time.
