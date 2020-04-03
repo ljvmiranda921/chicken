@@ -50,11 +50,10 @@ parseCheckins f d = do
     Right csv -> mapM_ putStrLn (parseCheckins' (tail csv))
     Left  err -> print err
 
+-- | The `makeHeader` function returns the #dailycheckin header
 makeHeader :: String -> IO String -> IO String
-makeHeader c iod = liftM (makeHeader' c) iod
-
-makeHeader' :: String -> String -> String
-makeHeader' c d = c ++ " " ++ d
+makeHeader c iod = liftM (f c) iod
+  where f x y = x ++ " " ++ y
 
 -- | The `getDate` function takes in a string and returns the date
 getDate str = do
