@@ -58,6 +58,6 @@ stack install
    something useful out of it?  
 - **Can I contribute to this tool?** Sure! But this is really a super internal
     tool and you might be better off contributing to my other open-source work!
-    Check out [Pyswarms](github.com/ljvmiranda921/pyswarms) (Python),
-    [Seagull](github.com/ljvmiranda921/seagull) (Python), and
-    [Barometer](github.com/ljvmiranda921/burnout-barometer) (Go)!
+    Check out [Pyswarms](https://github.com/ljvmiranda921/pyswarms) (Python),
+    [Seagull](https://github.com/ljvmiranda921/seagull) (Python), and
+    [Barometer](https://github.com/ljvmiranda921/burnout-barometer) (Go)!
